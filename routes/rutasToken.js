@@ -90,4 +90,11 @@ router.get('/peliculas', [], (req, res) => {
     }))
 });
 
+router.get('/elUsuario', [], (req, res) => {
+    let id = req.idUsuario;
+    user.getDatosUsuario(connection, id, (data => {
+        res.json(data);
+    }))
+});
+
 module.exports = router;

@@ -109,4 +109,44 @@ module.exports = {
             callback({ array: null, id: null, success: true });
         });
     },
+
+    getPedidosActivos: (connection, estado, callback) => {
+        connection.query('select p.id, concat(u.nombre," ",u.apepat," ",u.apemat) as nombre, p.id_usuario, p.fecha, p.total, p.lat, p.lon, p.estado from pedido p, usuarios u where u.id=p.id_usuario and p.estado=' + estado, (err, results) => {
+            if (err) {
+                callback({ array: null, success: false, err: JSON.stringify(err) });
+                return;
+            }
+            callback({ array: results, success: true });
+        })
+    },
+
+    getDetallesPedidos: (connection, id, callback) => {
+        connection.query('select a.nombre, a.imagen, b.precio, b.cantidad, a.descripcion from producto a, producto_pedido b where b.id_producto=a.id and b.id_pedido =' + id, (err, results) => {
+            if (err) {
+                callback({ array: null, success: false, err: JSON.stringify(err) });
+                return;
+            }
+            callback({ array: results || null, success: true });
+        })
+    },
+
+    completarPedido: (connection, id, callback) => {
+        connection.query('update pedido set estado = 1 where id = ?', [id], (err, results) => {
+            if (err) {
+                callback({ array: null, success: false, err: JSON.stringify(err) });
+                return;
+            }
+            callback({ array: results, success: true });
+        });
+    },
+
+    getDatosUsuario: (connection, id, callback) => {
+        connection.query('select  concat(nombre, " ",apepat," ",apemat) as nombre, email from usuarios where id=' + id, (err, results) => {
+            if (err) {
+                callback({ array: null, success: false, err: JSON.stringify(err) });
+                return;
+            }
+            callback({ array: results || null, success: true });
+        })
+    },
 }

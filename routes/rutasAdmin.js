@@ -58,4 +58,39 @@ router.post('/pelicula', (req, res) => {
     }));
 });
 
+router.get('/pedidosActivos/:estado', [
+    param('estado').not().isEmpty().isNumeric(),
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.json({ success: false, err: JSON.stringify(errors) })
+        return
+    }
+    let estado = req.params.estado;
+    user.getPedidosActivos(connection, estado, (data => {
+        res.json(data);
+    }))
+});
+
+router.get('/detalles/:id', [
+    param('id').not().isEmpty().isNumeric(),
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.json({ success: false, err: JSON.stringify(errors) })
+        return
+    }
+    let id = req.params.id;
+    user.getDetallesPedidos(connection, id, (data => {
+        res.json(data);
+    }))
+});
+
+router.put('/completarPedido', [], (req, res) => {
+    let id = req.body.id;
+    user.completarPedido(connection, id, (data => {
+        res.json(data);
+    }))
+});
+
 module.exports = router;
