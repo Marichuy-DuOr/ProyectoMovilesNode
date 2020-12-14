@@ -22,12 +22,12 @@ const checkRole = (req, res, next) => {
         return res.json({ error: 'Expired token' });
     }
 
-    if (payload.roleUser === 'clien') {
+    if (payload.rol === 'client') {
         return res.json({ error: 'Necesita permisos de admin' });
     }
 
-    req.idUser = payload.idUser;
-    req.idClient = payload.roleUser;
+    req.idUsuario = payload.idUsuario;
+    req.rol = payload.rol;
     next();
 }
 

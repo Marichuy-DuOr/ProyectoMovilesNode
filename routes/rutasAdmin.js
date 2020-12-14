@@ -9,12 +9,8 @@ const { body, param, validationResult } = require('express-validator');
 
 router.use(middlewareRol.checkRole);
 
-router.get('/admin', (req, res) => {
-    res.send('Holis Admin!!!!!! :DDD');
-});
 
-
-router.delete('/pelicula/:id', [
+router.delete('/producto/:id', [
     param('id').not().isEmpty().isNumeric()
 ], (req, res) => {
     const errors = validationResult(req);
@@ -23,37 +19,21 @@ router.delete('/pelicula/:id', [
         res.json({ success: false, err: JSON.stringify(errors) })
         return
     }
-    user.deleteMovie(connection, params, (data => {
+    user.deleteProducto(connection, params, (data => {
         res.json(data);
     }))
 });
 
-
-
-router.put('/pelicula', [], (req, res) => {
+router.put('/producto', [], (req, res) => {
     let body = req.body;
-    user.updateMovie(connection, body, (data => {
+    user.updateProducto(connection, body, (data => {
         res.json(data);
     }))
 });
 
-router.get('/pelicula/:id', [
-    param('id').not().isEmpty().isNumeric(),
-], (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        res.json({ success: false, err: JSON.stringify(errors) })
-        return
-    }
-    let id = req.params.id;
-    user.getIdMovie(connection, id, (data => {
-        res.json(data);
-    }))
-});
-
-router.post('/pelicula', (req, res) => {
+router.post('/producto', (req, res) => {
     let body = req.body;
-    user.createMovie(connection, body, (data => {
+    user.createProducto(connection, body, (data => {
         res.json(data);
     }));
 });
@@ -92,5 +72,6 @@ router.put('/completarPedido', [], (req, res) => {
         res.json(data);
     }))
 });
+
 
 module.exports = router;

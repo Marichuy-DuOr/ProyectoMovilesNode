@@ -11,8 +11,8 @@ const { body, param, validationResult } = require('express-validator');
 
 const crearToken = (user) => {
     let payload = {
-        idUser: user.id,
-        role: user.role,
+        idUsuario: user.id,
+        rol: user.rol,
         createdAt: moment().unix(),
         expiresAt: moment().add(1, 'day').unix()
     }
@@ -23,10 +23,10 @@ router.post('/login', (req, res) => {
     let email = req.body.email;
     user.getbyemail(connection, email, (data => {
 
-        if (data.id.length === 0) {
+        if (data.array.length === 0) {
             return res.status(400).json({ message: 'Username or Password are incorrect!' });
         } else {
-            const equals = bcrypt.compareSync(req.body.password, data.id[0].password);
+            const equals = bcrypt.compareSync(req.body.password, data.array[0].password);
             if (!equals) {
                 return res.status(400).json({ message: 'Username or Password are incorrect!' });
             } else {
@@ -34,10 +34,10 @@ router.post('/login', (req, res) => {
                     /*succesfull: crearToken(data.id[0]),
                     done: 'Login correct'*/
                     message: 'OK',
-                    token: crearToken(data.id[0]),
-                    userId: data.id[0].id,
-                    role: data.id[0].role,
-                    name: data.id[0].name
+                    token: crearToken(data.array[0]),
+                    idUsuario: data.array[0].id,
+                    rol: data.array[0].rol,
+                    nombre: data.array[0].nombre
                 })
             }
         }
@@ -48,6 +48,7 @@ router.post('/login', (req, res) => {
 router.post('/register', (req, res) => {
     req.body.password = bcrypt.hashSync(req.body.password, 10);
     let body = req.body;
+    req.body.rol = 'client';
     user.create(connection, body, (data => {
         res.json(data);
     }));

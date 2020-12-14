@@ -1,112 +1,112 @@
 module.exports = {
 
     getAll: (connection, callback) => {
-        connection.query('select * from users', (err, results) => {
+        connection.query('select * from usuarios', (err, results) => {
             if (err) {
-                callback({ array: null, id: null, success: false, err: JSON.stringify(err) });
+                callback({ array: null, success: false, err: JSON.stringify(err) });
                 return;
             }
-            callback({ array: results, id: null, success: true });
+            callback({ array: results, success: true });
         })
     },
 
     create: (connection, body, callback) => {
-        connection.query('insert into users SET ?', body, (err, results) => {
+        connection.query('insert into usuarios SET ?', body, (err, results) => {
             if (err) {
-                callback({ array: null, id: null, success: false, err: JSON.stringify(err) });
+                callback({ array: null, success: false, err: JSON.stringify(err) });
                 return;
             }
-            callback({ array: null, id: null, success: true });
+            callback({ array: results, success: true });
         });
     },
 
     getId: (connection, id, callback) => {
-        connection.query('select * from users where id = ' + id, (err, results) => {
+        connection.query('select * from usuarios where id = ' + id, (err, results) => {
             if (err) {
-                callback({ array: null, id: null, success: false, err: JSON.stringify(err) });
+                callback({ array: null, success: false, err: JSON.stringify(err) });
                 return;
             }
-            callback({ array: null, id: results || null, success: true });
+            callback({ array: results || null, success: true });
         })
     },
 
     getbyemail: (connection, email, callback) => {
-        connection.query(`select * from users where email = '${email}'`, (err, results) => {
+        connection.query(`select * from usuarios where email = '${email}'`, (err, results) => {
             if (err) {
-                callback({ array: null, id: null, success: false, err: JSON.stringify(err) });
+                callback({ array: null, success: false, err: JSON.stringify(err) });
                 return;
             }
-            callback({ array: null, id: results || null, success: true });
+            callback({ array: results || null, success: true });
         })
     },
 
     delete: (connection, body, callback) => {
-        connection.query(`delete from users where email = '${body.email}'`, (err, results) => {
+        connection.query(`delete from usuarios where email = '${body.email}'`, (err, results) => {
             if (err) {
-                callback({ array: null, id: null, success: false, err: JSON.stringify(err) });
+                callback({ array: null, success: false, err: JSON.stringify(err) });
                 return;
             }
-            callback({ array: null, id: null, success: true });
+            callback({ array: results, success: true });
         })
     },
 
     update: (connection, body, callback) => {
-        connection.query('update users set name = ?, email = ?, password = ?, surname = ?, role = ? WHERE id = ? ', [body.name, body.email, body.password, body.surname, body.role, body.id], (err, results) => {
+        connection.query('update usuarios set nombre = ?, email = ?, password = ?, apepat = ?, apemat = ? WHERE id = ? ', [body.nombre, body.email, body.password, body.apepat, body.apemat, body.id], (err, results) => {
             if (err) {
-                callback({ array: null, id: null, success: false, err: JSON.stringify(err) });
+                callback({ array: null, success: false, err: JSON.stringify(err) });
                 return;
             }
-            callback({ array: null, id: null, success: true });
+            callback({ array: results, success: true });
         });
     },
 
-    getAllMovies: (connection, callback) => {
-        connection.query('select * from peliculas', (err, results) => {
+    getAllProductos: (connection, callback) => {
+        connection.query('select * from producto', (err, results) => {
             if (err) {
-                callback({ array: null, id: null, success: false, err: JSON.stringify(err) });
+                callback({ array: null, success: false, err: JSON.stringify(err) });
                 return;
             }
-            callback({ array: results, id: null, success: true });
+            callback({ array: results, success: true });
         })
     },
 
-    getIdMovie: (connection, id, callback) => {
-        connection.query('select * from peliculas where id = ' + id, (err, results) => {
+    getIdProducto: (connection, id, callback) => {
+        connection.query('select * from producto where id = ' + id, (err, results) => {
             if (err) {
-                callback({ array: null, id: null, success: false, err: JSON.stringify(err) });
+                callback({ array: null, success: false, err: JSON.stringify(err) });
                 return;
             }
-            callback({ array: null, id: results || null, success: true });
+            callback({ array: results || null, success: true });
         })
     },
 
-    createMovie: (connection, body, callback) => {
-        connection.query('insert into peliculas SET ?', body, (err, results) => {
+    createProducto: (connection, body, callback) => {
+        connection.query('insert into producto SET ?', body, (err, results) => {
             if (err) {
-                callback({ array: null, id: null, success: false, err: JSON.stringify(err) });
+                callback({ array: null, success: false, err: JSON.stringify(err) });
                 return;
             }
-            callback({ array: null, id: null, success: true });
+            callback({ array: results, success: true });
         });
     },
 
-    deleteMovie: (connection, body, callback) => {
-        connection.query(`delete from peliculas where id = '${body.id}'`, (err, results) => {
+    deleteProducto: (connection, body, callback) => {
+        connection.query(`delete from producto where id = '${body.id}'`, (err, results) => {
             if (err) {
-                callback({ array: null, id: null, success: false, err: JSON.stringify(err) });
+                callback({ array: null, success: false, err: JSON.stringify(err) });
                 return;
             }
-            callback({ array: null, id: null, success: true });
+            callback({ array: results, success: true });
         })
     },
 
-    updateMovie: (connection, body, callback) => {
-        connection.query('update peliculas set nombre = ?, img = ? WHERE id = ? ', [body.nombre, body.img, body.id], (err, results) => {
+    updateProducto: (connection, body, callback) => {
+        connection.query('update producto set nombre = ?, imagen = ?, precio = ?, descripcion = ? WHERE id = ? ', [body.nombre, body.imagen, body.precio, body.descripcion, body.id], (err, results) => {
             if (err) {
-                callback({ array: null, id: null, success: false, err: JSON.stringify(err) });
+                callback({ array: null, success: false, err: JSON.stringify(err) });
                 return;
             }
-            callback({ array: null, id: null, success: true });
+            callback({ array: results, success: true });
         });
     },
 
