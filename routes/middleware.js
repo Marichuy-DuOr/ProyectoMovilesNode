@@ -22,8 +22,8 @@ const checkToken = (req, res, next) => {
         return res.json({ error: 'Expired token' });
     }
 
-    req.idUser = payload.idUser;
-    req.idClient = payload.roleUser;
+    req.idUsuario = payload.idUsuario;
+    req.rol = payload.rol;
     next();
 }
 

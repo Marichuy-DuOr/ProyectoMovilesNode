@@ -10,17 +10,13 @@ const { body, param, validationResult } = require('express-validator');
 router.use(middleware.checkToken);
 
 router.get('/mainUser', (req, res) => {
-    let id = req.idUser;
+    let id = req.idUsuario;
     user.getId(connection, id, (data => {
         res.json(data);
     }))
 });
 
 //Routes
-router.get('/', (req, res) => {
-    res.send('Holis!!!!!! :DDD');
-});
-
 router.get('/users', [], (req, res) => {
     user.getAll(connection, (data => {
         res.json(data);
@@ -57,7 +53,7 @@ router.get('/user/:email', [
         res.json({ success: false, err: JSON.stringify(errors) })
         return
     }
-    let email = req.param.email;
+    let email = req.params.email;
     user.getbyemail(connection, email, (data => {
         res.json(data);
     }))
@@ -84,8 +80,22 @@ router.put('/user', [], (req, res) => {
     }))
 });
 
-router.get('/peliculas', [], (req, res) => {
-    user.getAllMovies(connection, (data => {
+router.get('/productos', [], (req, res) => {
+    user.getAllProductos(connection, (data => {
+        res.json(data);
+    }))
+});
+
+router.get('/producto/:id', [
+    param('id').not().isEmpty().isNumeric(),
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.json({ success: false, err: JSON.stringify(errors) })
+        return
+    }
+    let id = req.params.id;
+    user.getIdProducto(connection, id, (data => {
         res.json(data);
     }))
 });
