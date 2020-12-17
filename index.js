@@ -4,6 +4,7 @@ const connection = require("./conexion");
 const cors = require('cors');
 const misrutas = require('./routes/rutas');
 const misrutasT = require('./routes/rutasToken');
+const misrutasClient = require('./routes/rutasClient');
 const misrutasAdmin = require('./routes/rutasAdmin');
 const PORT = process.env.PORT || 3000;
 
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/', misrutas);
 app.use('/', misrutasT);
+app.use('/', misrutasClient);
 app.use('/', misrutasAdmin);
 
 //Check connect

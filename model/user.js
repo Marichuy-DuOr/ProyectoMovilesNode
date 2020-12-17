@@ -149,4 +149,35 @@ module.exports = {
             callback({ array: results || null, success: true });
         })
     },
+
+    createCarrito: (connection, body, callback) => {
+        connection.query('insert into carrito SET ?', body, (err, results) => {
+            if (err) {
+                callback({ array: null, success: false, err: JSON.stringify(err) });
+                return;
+            }
+            callback({ array: results, success: true });
+        });
+    },
+
+    getAllCarrito: (connection, body, callback) => {
+        connection.query('select (c.id)as id, (p.nombre)as nombre, (p.precio) as precio, (p.imagen)as imagen, (p.descripcion) as descripcion, (c.cantidad)as cantidad from producto p, carrito c where c.id_producto=p.id and c.id_usuario = ?', [body.id], (err, results) => {
+            if (err) {
+                callback({ array: null, success: false, err: JSON.stringify(err) });
+                return;
+            }
+            callback({ array: results, success: true });
+        })
+    },
+
+    updateCarrito: (connection, body, callback) => {
+        connection.query('update carrito set cantidad = ? WHERE id = ? ', [body.cantidad, body.id], (err, results) => {
+            if (err) {
+                callback({ array: null, success: false, err: JSON.stringify(err) });
+                return;
+            }
+            callback({ array: results, success: true });
+        });
+    },
+
 }
