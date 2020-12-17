@@ -161,7 +161,7 @@ module.exports = {
     },
 
     getAllCarrito: (connection, body, callback) => {
-        connection.query('select (c.id)as id, (p.nombre)as nombre, (p.precio) as precio, (p.imagen)as imagen, (p.descripcion) as descripcion, (c.cantidad)as cantidad from producto p, carrito c where c.id_producto=p.id and c.id_usuario = ?', [body.id], (err, results) => {
+        connection.query('select (c.id)as id, (c.id_producto)as id_producto, (p.nombre)as nombre, (p.precio) as precio, (p.imagen)as imagen, (p.descripcion) as descripcion, (c.cantidad)as cantidad from producto p, carrito c where c.id_producto=p.id and c.id_usuario = ?', [body.id], (err, results) => {
             if (err) {
                 callback({ array: null, success: false, err: JSON.stringify(err) });
                 return;
@@ -179,5 +179,46 @@ module.exports = {
             callback({ array: results, success: true });
         });
     },
+
+    deleteCarrito: (connection, body, callback) => {
+        connection.query(`delete from carrito where id = '${body.id}'`, (err, results) => {
+            if (err) {
+                callback({ array: null, success: false, err: JSON.stringify(err) });
+                return;
+            }
+            callback({ array: results, success: true });
+        })
+    },
+
+    deleteAllCarrito: (connection, body, callback) => {
+        connection.query(`delete from carrito where id_usuario = '${body.id}'`, (err, results) => {
+            if (err) {
+                callback({ array: null, success: false, err: JSON.stringify(err) });
+                return;
+            }
+            callback({ array: results, success: true });
+        })
+    },
+
+    createPedido: (connection, body, callback) => {
+        connection.query('insert into pedido(id_usuario, fecha, total, estado, lat, lon) values(?,now(),?,0,?,?)', [body.id, body.total, body.lat, body.lon], (err, results) => {
+            if (err) {
+                callback({ array: null, success: false, err: JSON.stringify(err) });
+                return;
+            }
+            callback({ array: results, success: true });
+        });
+    },
+
+    createProductoPedido: (connection, body, callback) => {
+        connection.query('insert into producto_pedido SET ?', body, (err, results) => {
+            if (err) {
+                callback({ array: null, success: false, err: JSON.stringify(err) });
+                return;
+            }
+            callback({ array: results, success: true });
+        });
+    },
+
 
 }

@@ -20,7 +20,7 @@ router.post('/carrito', (req, res) => {
 router.get('/carrito', [], (req, res) => {
     let body = req.body;
     body.id = req.idUsuario;
-    user.getAllCarrito(connection,  body, (data => {
+    user.getAllCarrito(connection, body, (data => {
         res.json(data);
     }))
 });
@@ -32,4 +32,42 @@ router.put('/carrito', [], (req, res) => {
     }))
 });
 
+router.delete('/carrito/:id', [
+    param('id').not().isEmpty().isNumeric()
+], (req, res) => {
+    const errors = validationResult(req);
+    let params = req.params;
+    if (!errors.isEmpty()) {
+        res.json({ success: false, err: JSON.stringify(errors) })
+        return
+    }
+    user.deleteCarrito(connection, params, (data => {
+        res.json(data);
+    }))
+});
+
+router.delete('/carrito', [], (req, res) => {
+    let body = req.body;
+    body.id = req.idUsuario;
+    user.deleteAllCarrito(connection, body, (data => {
+        res.json(data);
+    }))
+});
+
+router.post('/pedido', (req, res) => {
+    let body = req.body;
+    body.id = req.idUsuario;
+
+    user.createPedido(connection, body, (data => {
+        res.json(data);
+    }));
+});
+
+router.post('/pedidoProducto', (req, res) => {
+    let body = req.body;
+
+    user.createProductoPedido(connection, body, (data => {
+        res.json(data);
+    }));
+});
 module.exports = router;
